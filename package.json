@@ -1,0 +1,13 @@
+{
+  "name": "imdb_automation",
+  "version": "1.0.0",
+  "description": "imdb test case automation using js&playwright",
+  "main": "index.js",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.32.1"
+  }
+}
