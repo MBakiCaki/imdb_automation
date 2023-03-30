@@ -1,3 +1,7 @@
+/**
+ * Muhammed Baki Caki - Imdb test automation case
+ * 30.03.2023 
+ * */
 import { test, expect } from '@playwright/test';
 
 test('The Jazz Singer Movie', async ({ page, request }) => {
@@ -46,74 +50,46 @@ test('The Jazz Singer Movie', async ({ page, request }) => {
 
     let star2 = await page.getByRole('listitem').filter(page.getByTestId('title-pc-principal-credit')).filter({ hasText: 'Star' }).first().innerText();
     expect(star2).toEqual(star);
+    
 
-    // await page.getByTestId('Photos').filter( { has: page.getByRole('link', { hasText: 'Photos' })}).click();
-
+    // CHECK BROKEN IMAGE LINK
     await page.getByRole('link', { name: 'Photos 48' }).click();
     await page.waitForLoadState();
-    // const as = await page.$$('#media_index_thumbnail_grid a');
-    // const pictureLinks = [];
 
-    // for (const a of as) {
-    //     let href = await a.getAttribute('href');
-    //     pictureLinks.push(href)
-    // }
-
-    // // console.log(pictureLinks);
-    // // console.log(pictureLinks.length);
-
-    // const baseUrl = `https://www.imdb.com`;
-    // // Check all photo links works
-    // // --default timeout might be exceeded(leads to test failure) because of the loop
-    // test.setTimeout(120000);
-    // for (const link of pictureLinks) {
-
-    //     const response = await request.get(baseUrl + link);
-    //     await expect(response).toBeOK(); // response validation
-    //     // console.log(response.status())
-    // }
-    var as;
+    var aTags;
     var pictureLinks = [];
 
     let hasNextPage = true;
     while (hasNextPage) {
-        // Gather a tags containing links
-        const as = await page.$$('#media_index_thumbnail_grid a');
+
+        // Gather a tags containing image links
+        const aTags = await page.$$('#media_index_thumbnail_grid a');
 
         // Add links to the pictureLinks list
-        for (const a of as) {
+        for (const a of aTags) {
             const href = await a.getAttribute('href');
             pictureLinks.push(href);
         }
 
         // Check if there is a next page of images
-        hasNextPage = await page.locator('.prevnext', { hasText: 'Next' }).first().isVisible();
+        hasNextPage = await page.locator('.prevnext', { hasText: 'Next' }).first().isVisible(); // next page button
         if (hasNextPage) {
-            await page.locator('.prevnext', { hasText: 'Next' }).first().click();
+            await page.locator('.prevnext', { hasText: 'Next' }).first().click(); 
             await page.waitForLoadState();
         }
     }
 
-
-
-    console.log(pictureLinks);
     console.log(pictureLinks.length);
 
     const baseUrl = `https://www.imdb.com`;
-    const requestOptions = {
-        timeout: 4000 // Set the timeout to 10 seconds
-    };
+
     // Check all photo links works
-    // --default timeout might be exceeded(leads to test failure) because of the loop
-    test.setTimeout(120000);
     for (const link of pictureLinks) {
 
         const response = await request.get(baseUrl + link, { timeout: 4000 });
         await expect(response).toBeOK(); // response validation
-        // console.log(response.status())
     }
-    console.log("---------")
-})
+});
 
 
 test('The Circus Movie', async ({ page, request }) => {
@@ -142,7 +118,6 @@ test('The Circus Movie', async ({ page, request }) => {
     let writer = await page.getByRole('listitem').filter(page.getByTestId('title-pc-principal-credit')).filter({ hasText: 'Writer' }).first().innerText();
 
     let star = await page.getByRole('listitem').filter(page.getByTestId('title-pc-principal-credit')).filter({ hasText: 'Star' }).first().innerText();
-    // await page.pause()
 
     // -- FROM SEARCH
     // navigate to main page
@@ -163,54 +138,27 @@ test('The Circus Movie', async ({ page, request }) => {
     let star2 = await page.getByRole('listitem').filter(page.getByTestId('title-pc-principal-credit')).filter({ hasText: 'Star' }).first().innerText();
     expect(star2).toEqual(star);
 
-    // await page.getByTestId('Photos').filter( { has: page.getByRole('link', { hasText: 'Photos' })}).click();
-
     await page.getByRole('link', { name: 'Photos 91' }).click();
     await page.waitForLoadState();
-    // await page.pause();
 
-    var as;
+
+    var aTags;
     var pictureLinks = [];
-
-    // await page.pause();
-    // var next = false;
-    // do{
-    //     // gather a tags containing links
-    //     as = await page.$$('#media_index_thumbnail_grid a');
-    //     // add links to the pictureLinks list
-    //     for (const a of as) {
-    //         let href = await a.getAttribute('href');
-    //         pictureLinks.push(href)
-    //     }
-    //     next = false
-    //     // check if there is a second page of images
-    //     if(await page.locator('.prevnext', {hasText: 'Next'}).first().isVisible()){ 
-
-    //         next = true
-    //         await page.locator('.prevnext', {hasText: 'Next'}).first().click()
-    //     }
-    // } 
-    // while(next)
-    // const pictureLinks = [];
-    // for (const a of as) {
-    //   let href = await a.getAttribute('href');
-    //   pictureLinks.push(href)
-    // }
-    //if .prevnext visible
 
     let hasNextPage = true;
     while (hasNextPage) {
-        // Gather a tags containing links
-        const as = await page.$$('#media_index_thumbnail_grid a');
+
+        // Gather a tags containing image links
+        const aTags = await page.$$('#media_index_thumbnail_grid a');
 
         // Add links to the pictureLinks list
-        for (const a of as) {
+        for (const a of aTags) {
             const href = await a.getAttribute('href');
             pictureLinks.push(href);
         }
 
         // Check if there is a next page of images
-        hasNextPage = await page.locator('.prevnext', { hasText: 'Next' }).first().isVisible();
+        hasNextPage = await page.locator('.prevnext', { hasText: 'Next' }).first().isVisible(); // next page button
         if (hasNextPage) {
             await page.locator('.prevnext', { hasText: 'Next' }).first().click();
             await page.waitForLoadState();
@@ -218,21 +166,15 @@ test('The Circus Movie', async ({ page, request }) => {
     }
 
 
-
-    console.log(pictureLinks);
     console.log(pictureLinks.length);
 
     const baseUrl = `https://www.imdb.com`;
-    const requestOptions = {
-        timeout: 4000 // Set the timeout to 10 seconds
-    };
+
     // Check all photo links works
-    // --default timeout might be exceeded(leads to test failure) because of the loop
-    test.setTimeout(120000);
+
     for (const link of pictureLinks) {
 
         const response = await request.get(baseUrl + link, { timeout: 4000 });
         await expect(response).toBeOK(); // response validation
-        // console.log(response.status())
     }
 })
