@@ -5,6 +5,7 @@
 import { test, expect } from '@playwright/test';
 
 test('The Jazz Singer Movie', async ({ page, request }) => {
+    test.setTimeout(4 * 60 * 1000);
 
     // -- FROM OSCAR AWARDS
     // navigate to the website
@@ -50,7 +51,7 @@ test('The Jazz Singer Movie', async ({ page, request }) => {
 
     let star2 = await page.getByRole('listitem').filter(page.getByTestId('title-pc-principal-credit')).filter({ hasText: 'Star' }).first().innerText();
     expect(star2).toEqual(star);
-    
+
 
     // CHECK BROKEN IMAGE LINK
     await page.getByRole('link', { name: 'Photos 48' }).click();
@@ -74,7 +75,7 @@ test('The Jazz Singer Movie', async ({ page, request }) => {
         // Check if there is a next page of images
         hasNextPage = await page.locator('.prevnext', { hasText: 'Next' }).first().isVisible(); // next page button
         if (hasNextPage) {
-            await page.locator('.prevnext', { hasText: 'Next' }).first().click(); 
+            await page.locator('.prevnext', { hasText: 'Next' }).first().click();
             await page.waitForLoadState();
         }
     }
@@ -93,6 +94,7 @@ test('The Jazz Singer Movie', async ({ page, request }) => {
 
 
 test('The Circus Movie', async ({ page, request }) => {
+    test.setTimeout(4 * 60 * 1000);
 
     // -- FROM OSCAR AWARDS
     // navigate to the website
